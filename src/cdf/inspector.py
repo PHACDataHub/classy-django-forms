@@ -59,20 +59,18 @@ class Method:
         self.children = []
 
     def params(self):
-        stack = []
-        argspec = inspect.getargspec(self.value)
-        if argspec.keywords:
-            stack.insert(0, '**' + argspec.keywords)
-        if argspec.varargs:
-            stack.insert(0, '*' + argspec.varargs)
-        defaults = list(argspec.defaults or [])
-        for arg in argspec.args[::-1]:
-            if defaults:
-                default = defaults.pop()
-                stack.insert(0, '{}={}'.format(arg, default))
+        sig = inspect.signature(self.value)
+        params = []
+        for param_name, param in sig.parameters.items():
+            if param.kind == inspect.Parameter.VAR_POSITIONAL:
+                params.append(f'*{param_name}')
+            elif param.kind == inspect.Parameter.VAR_KEYWORD:
+                params.append(f'**{param_name}')
+            elif param.default != inspect.Parameter.empty:
+                params.append(f'{param_name}={param.default}')
             else:
-                stack.insert(0, arg)
-        return ', '.join(stack)
+                params.append(param_name)
+        return ', '.join(params)
 
     def code(self):
         code = inspect.getsource(self.value)
