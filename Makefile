@@ -25,10 +25,17 @@ build_for_version:
 	@./src/compile_static.py
 
 build_local:
+	make clean
+	make collect_static
+	@IS_LOCAL=1 tox
+
+# build_local requires installing one of the django versions locally
+# you'll have to manually navigate to the version you're testing
+build_local_dev:
 	@make clean
 	@make collect_static
-	@make generate_index_for_version
-	@make build_for_version
+	@IS_LOCAL=1 make generate_index_for_version
+	@IS_LOCAL=1 make build_for_version
 
 build:
 	@make clean
