@@ -1,5 +1,7 @@
 # Classy Django Forms
 
+PHAC url: [https://phacdatahub.github.io/classy-django-forms/](https://phacdatahub.github.io/classy-django-forms/)
+
 Classy Django Forms is an API inspector of classes available in Django forms module. It exposes all public classes with their attributes, properties, methods and the dependencies to other classes. This project is heavily based on [Classy Class-Based Views](http://ccbv.co.uk) and [Classy Django Rest Framework](http://www.cdrf.co).
 
 ## Development
@@ -10,11 +12,16 @@ Requires Python 3.
 
 `$ pip install -r requirements.txt`
 
-`$ make build`
+**To run locally:**
 
-To run locally:
+For a fully built local version (don't deploy this, links won't work correctly), just run: `make build_local`
 
-`$ make runserver`
+Or, for a single version, much faster for debugging: 
+1. `pip install django==(desired version)`
+2. `make build_local_dev`
+
+Finally, serve with `make runserver`
+
 
 ## How it works
 
@@ -35,12 +42,12 @@ These 2 scripts are called for each tox environment. Tox is used to create multi
 
 ## How to deploy
 
-The website is hosted by GitHub Pages on a custom domain [https://cdf.9vo.lt](https://cdf.9vo.lt).
+The website is hosted by GitHub Pages
 
 To deploy a new version, do the following:
 
 1. Merge latest master to gh-pages branch `git checkout gh-pages && git merge master`.
-2. Build public folder `make build`.
+2. Build public folder `make build` (unlike build_local, this will use the correct BASE_URL for GitHub Pages).
 3. Commit newly generated files `git add public/ && git commit`.
 4. Run `git subtree push --prefix public/ origin gh-pages`. This will push only the public folder to gh-pages.
-5. Check [https://cdf.9vo.lt/](https://cdf.9vo.lt/).
+5. Check [https://phacdatahub.github.io/classy-django-forms/](https://phacdatahub.github.io/classy-django-forms/).
